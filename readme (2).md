@@ -1,12 +1,5 @@
 # FarzaToys Rental
 
-<div align="center">
-
-![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-2.x-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-
 **Aplikasi manajemen penyewaan mobil mainan berbasis Flutter & Supabase**
 
 *Kelola armada, transaksi sewa, dan antrian pelanggan — semuanya dalam satu aplikasi.*
@@ -61,7 +54,7 @@ Aplikasi mendukung multi-akun dengan sistem autentikasi berbasis Supabase Auth, 
 ### Antrian Pelanggan
 - Tambah pelanggan ke daftar antrian jika unit sedang penuh
 - Opsional: tentukan unit target yang ditunggu
-- Hapus antrian saat pelanggan sudah mulai menyewa
+- Hapus antrian saat pelanggan sudah mulai penyewaan
 
 ### Tampilan & Tema
 - Desain **bold & playful** dengan warna kuning primer (`#FFEB3B`) dan ungu (`#7B1FA2`)
@@ -116,33 +109,41 @@ lib/
 ## Skema Database (Supabase)
 
 ### Tabel `cars`
-| Kolom | Tipe | Keterangan |
-|---|---|---|
-| `id` | UUID | Primary key |
-| `name` | text | Nama unit |
-| `color` | text | Warna unit |
-| `note` | text | Catatan tambahan |
-| `is_available` | boolean | Status ketersediaan |
-| `image_url` | text | URL foto unit |
-| `price_per_15_mins` | integer | Harga per 15 menit (default: 20.000) |
+ 
+> Menyimpan data seluruh unit mobil mainan yang dimiliki.
+ 
+| Kolom | Tipe | Default | Keterangan |
+|---|---|---|---|
+| `id` | `uuid` | `gen_random_uuid()` | Primary key, otomatis di-generate |
+| `created_at` | `timestamptz` | `now()` | Waktu data dibuat |
+| `name` | `text` | `NULL` | Nama unit mobil |
+| `color` | `text` | `NULL` | Warna unit |
+| `is_available` | `bool` | `true` | Status ketersediaan unit |
+| `status` | `text` | `'available'` | Status detail: `available` / `rented` |
+| `note` | `text` | `NULL` | Catatan tambahan unit |
+| `image_url` | `text` | `NULL` | URL foto unit (dari Supabase Storage) |
+| `price_per_15_mins` | `int4` | `20000` | Tarif sewa per 15 menit (Rupiah) |
+
 
 ### Tabel `rentals`
-| Kolom | Tipe | Keterangan |
-|---|---|---|
-| `id` | UUID | Primary key |
-| `car_id` | UUID | FK → cars |
-| `car_name` | text | Nama unit (snapshot) |
-| `renter_name` | text | Nama penyewa |
-| `renter_phone` | text | Nomor telepon |
-| `renter_address` | text | Alamat penyewa |
-| `start_time` | timestamptz | Waktu mulai sewa |
-| `end_time` | timestamptz | Waktu selesai sewa |
-| `duration_minutes` | integer | Durasi dalam menit |
-| `total_price` | integer | Total harga |
-| `is_paid` | boolean | Status pembayaran |
-| `status` | text | `active` / `returned` |
-
----
+ 
+> Menyimpan seluruh riwayat dan transaksi sewa aktif.
+ 
+| Kolom | Tipe | Default | Keterangan |
+|---|---|---|---|
+| `id` | `uuid` | `gen_random_uuid()` | Primary key |
+| `created_at` | `timestamptz` | `now()` | Waktu transaksi dibuat |
+| `car_id` | `uuid` | — | FK → `cars.id` |
+| `car_name` | `text` | — | Snapshot nama unit saat sewa |
+| `renter_name` | `text` | — | Nama penyewa |
+| `renter_phone` | `text` | — | Nomor telepon penyewa |
+| `renter_address` | `text` | — | Alamat penyewa |
+| `start_time` | `timestamptz` | — | Waktu mulai sewa |
+| `end_time` | `timestamptz` | — | Waktu selesai sewa |
+| `duration_minutes` | `int4` | — | Total durasi dalam menit |
+| `total_price` | `int4` | — | Total biaya sewa (Rupiah) |
+| `is_paid` | `bool` | `false` | Status pembayaran |
+| `status` | `text` | `'active'` | Status sewa: `active` / `returned` |
 
 
 ## Dependencies
