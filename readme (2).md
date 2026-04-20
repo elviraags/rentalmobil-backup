@@ -1,4 +1,4 @@
-# 🚗 ToyCar Rental
+# FarzaToys Rental
 
 <div align="center">
 
@@ -15,30 +15,30 @@
 
 ---
 
-## 📖 Deskripsi
+## Deskripsi
 
-**ToyCar Rental** adalah aplikasi mobile manajemen penyewaan mobil mainan yang dibangun menggunakan Flutter dengan backend real-time Supabase. Aplikasi ini dirancang untuk memudahkan operator/pemilik usaha dalam mengelola stok unit, mencatat transaksi sewa, memantau pendapatan harian, hingga mengelola antrian pelanggan — semuanya secara digital dan efisien.
+**FarzaToys Rental** adalah aplikasi mobile manajemen penyewaan mobil mainan yang dibangun menggunakan Flutter dengan backend real-time Supabase. Aplikasi ini dirancang untuk memudahkan operator/pemilik usaha dalam mengelola stok unit, mencatat transaksi sewa, memantau pendapatan harian, hingga mengelola antrian pelanggan — semuanya secara digital dan efisien.
 
 Aplikasi mendukung multi-akun dengan sistem autentikasi berbasis Supabase Auth, di mana admin memiliki akses penuh termasuk kelola akun pengguna lain.
 
 ---
 
-## ✨ Fitur Utama
+## Fitur Utama
 
-### 🔐 Autentikasi & Manajemen Akun
+### Autentikasi & Manajemen Akun
 - Login & logout menggunakan Supabase Auth
 - Registrasi akun baru (khusus Admin)
 - Role-based access: **Admin** (`admin@gmail.com`) memiliki menu tambahan untuk kelola akun
 - Session persisten — pengguna tetap login setelah menutup aplikasi
 
-### 🚗 Manajemen Unit (Mobil Mainan)
+### Manajemen Unit (Mobil Mainan)
 - Tambah, edit, dan hapus unit mobil
 - Upload foto unit menggunakan **Image Picker**
 - Atur harga sewa per 15 menit secara individual
 - Toggle ketersediaan unit (Tersedia / Disewa)
 - Tampilkan warna, nama, catatan, dan gambar unit
 
-### 📋 Manajemen Penyewaan
+### Manajemen Penyewaan
 - Buat transaksi sewa baru dengan data penyewa lengkap:
   - Nama, nomor telepon, alamat
   - Pilih unit & durasi sewa
@@ -48,30 +48,29 @@ Aplikasi mendukung multi-akun dengan sistem autentikasi berbasis Supabase Auth, 
 - Hapus transaksi (unit otomatis dikembalikan jika masih aktif)
 - Filter: **Semua** / **Aktif** / **Selesai**
 
-### 💰 Pembayaran & Pendapatan
+### Pembayaran & Pendapatan
 - Tandai transaksi sebagai **Lunas** atau **Belum Dibayar**
 - Dashboard pendapatan **hari ini** — otomatis dihitung dari transaksi yang selesai dan lunas
 - Harga dihitung otomatis berdasarkan durasi dan tarif per unit
 
-### ⏰ Notifikasi Lokal
+### Notifikasi Lokal
 - Jadwalkan pengingat otomatis saat durasi sewa akan habis
 - Notifikasi berbasis **flutter_local_notifications** dengan timezone lokal (Asia/Makassar)
-- Dukungan exact alarm (Android)
+- Dukungan alarm (Android)
 
-### 🧾 Antrian Pelanggan
+### Antrian Pelanggan
 - Tambah pelanggan ke daftar antrian jika unit sedang penuh
 - Opsional: tentukan unit target yang ditunggu
-- Hapus antrian saat pelanggan sudah dilayani
+- Hapus antrian saat pelanggan sudah mulai menyewa
 
-### 🎨 Tampilan & Tema
+### Tampilan & Tema
 - Desain **bold & playful** dengan warna kuning primer (`#FFEB3B`) dan ungu (`#7B1FA2`)
 - Custom AppBar dengan bottom border tebal bergaya neo-brutalist
 - SnackBar custom dengan border tebal dan aksi "OK"
-- Dukungan `ThemeProvider` untuk ekspansi tema gelap di masa depan
 
 ---
 
-## 🧩 Struktur Widget Utama
+## Struktur Widget Utama
 
 | Widget / Screen | Deskripsi |
 |---|---|
@@ -89,7 +88,7 @@ Aplikasi mendukung multi-akun dengan sistem autentikasi berbasis Supabase Auth, 
 
 ---
 
-## 🏗️ Arsitektur & State Management
+## Arsitektur & State Management
 
 ```
 lib/
@@ -114,7 +113,7 @@ lib/
 
 ---
 
-## 🗄️ Skema Database (Supabase)
+## Skema Database (Supabase)
 
 ### Tabel `cars`
 | Kolom | Tipe | Keterangan |
@@ -145,76 +144,8 @@ lib/
 
 ---
 
-## 🚀 Cara Instalasi
 
-### Prasyarat
-- Flutter SDK `>=3.0.0`
-- Dart SDK `>=3.0.0`
-- Akun [Supabase](https://supabase.com)
-- Android Studio / VS Code
-
-### Langkah Setup
-
-**1. Clone repository**
-```bash
-git clone https://github.com/username/toy_car_rental.git
-cd toy_car_rental
-```
-
-**2. Install dependencies**
-```bash
-flutter pub get
-```
-
-**3. Konfigurasi environment**
-
-Buat file `.env` di root project berdasarkan `.env.example`:
-```env
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key-here
-```
-
-**4. Setup database Supabase**
-
-Jalankan SQL berikut di Supabase SQL Editor:
-
-```sql
--- Tabel cars
-create table cars (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  color text not null,
-  note text default '',
-  is_available boolean default true,
-  image_url text,
-  price_per_15_mins integer default 20000
-);
-
--- Tabel rentals
-create table rentals (
-  id uuid primary key default gen_random_uuid(),
-  car_id uuid references cars(id),
-  car_name text not null,
-  renter_name text not null,
-  renter_phone text default '',
-  renter_address text default '',
-  start_time timestamptz not null,
-  end_time timestamptz not null,
-  duration_minutes integer not null,
-  total_price integer not null,
-  is_paid boolean default false,
-  status text default 'active'
-);
-```
-
-**5. Jalankan aplikasi**
-```bash
-flutter run
-```
-
----
-
-## 📦 Dependencies
+## Dependencies
 
 | Package | Versi | Fungsi |
 |---|---|---|
@@ -229,7 +160,7 @@ flutter run
 
 ---
 
-## ⚙️ Konfigurasi Notifikasi (Android)
+## Konfigurasi Notifikasi (Android)
 
 Tambahkan permission berikut di `android/app/src/main/AndroidManifest.xml`:
 
@@ -242,7 +173,7 @@ Tambahkan permission berikut di `android/app/src/main/AndroidManifest.xml`:
 
 ---
 
-## 🔑 Akun Default
+## Akun Default
 
 | Role | Email | Akses |
 |---|---|---|
@@ -253,7 +184,7 @@ Tambahkan permission berikut di `android/app/src/main/AndroidManifest.xml`:
 
 ---
 
-## 📱 Screenshot
+## Screenshot
 
 > *Tambahkan screenshot aplikasi di sini*
 
@@ -263,26 +194,4 @@ Tambahkan permission berikut di `android/app/src/main/AndroidManifest.xml`:
 
 ---
 
-## 🤝 Kontribusi
 
-Kontribusi sangat terbuka! Silakan:
-
-1. Fork repository ini
-2. Buat branch fitur: `git checkout -b fitur/nama-fitur`
-3. Commit perubahan: `git commit -m 'feat: tambah fitur X'`
-4. Push ke branch: `git push origin fitur/nama-fitur`
-5. Buat Pull Request
-
----
-
-## 📄 Lisensi
-
-Didistribusikan di bawah lisensi **MIT**. Lihat [`LICENSE`](LICENSE) untuk informasi lengkap.
-
----
-
-<div align="center">
-
-Dibuat dengan ❤️ menggunakan Flutter & Supabase
-
-</div>
